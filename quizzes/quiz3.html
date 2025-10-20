@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 3 Quiz - Measures of Central Tendency</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+  }
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .tab-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0 5px;
+    border-radius: 8px;
+  }
+  .tab-btn.active {
+    background: #0056b3;
+  }
+  .tab-content {
+    display: none;
+  }
+  .tab-content.active {
+    display: block;
+  }
+  .question {
+    background: #fff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  button {
+    margin-top: 5px;
+    padding: 5px 10px;
+    border: none;
+    background: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #0056b3;
+  }
+  .answers {
+    margin-top: 10px;
+  }
+  .score {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+  }
+  textarea {
+    width: 100%;
+    height: 80px;
+    margin-top: 5px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Chapter 3 Quiz</h1>
+<div class="tabs">
+  <button class="tab-btn active" data-tab="easy">Easy</button>
+  <button class="tab-btn" data-tab="medium">Medium</button>
+  <button class="tab-btn" data-tab="hard">Hard</button>
+</div>
+
+<div id="easy" class="tab-content active"></div>
+<div id="medium" class="tab-content"></div>
+<div id="hard" class="tab-content"></div>
+
+<div class="score" id="score"></div>
+
+<script>
+/* =============================
+   1️⃣ ضيف هنا مصفوفة كل مستوى
+   ============================= */
+
+// مثال بسيط تقدر تبدله بالمصفوفة الكبيرة بعدين
+const easyQuestions = [
+  // ---------- Multiple Choice Questions (30) ----------
+  { type: "mcq", question: "1. Which of the following is not a measure of central tendency?", options: ["Mean", "Median", "Mode", "Range"], answer: 3, explanation: "المدى Range ليس مقياس نزعة مركزية، بل مقياس تشتت." },
+  { type: "mcq", question: "2. What is the mean of 5, 10, 15?", options: ["5", "10", "15", "20"], answer: 1, explanation: "المتوسط = (5+10+15)/3 = 10." },
+  { type: "mcq", question: "3. The median of 2, 4, 6, 8, 10 is:", options: ["4", "5", "6", "8"], answer: 2, explanation: "الوسيط هو القيمة الوسطى بعد الترتيب = 6." },
+  { type: "mcq", question: "4. The mode of 3, 3, 5, 7 is:", options: ["3", "5", "7", "No mode"], answer: 0, explanation: "الوضع هو القيمة الأكثر تكرارًا، وهي 3." },
+  { type: "mcq", question: "5. If all numbers in a dataset are the same, mean = median = mode?", options: ["True", "False"], answer: 0, explanation: "عندما تكون القيم متساوية، كل المقاييس متساوية." },
+  { type: "mcq", question: "6. The mean is affected by extreme values.", options: ["True", "False"], answer: 0, explanation: "المتوسط يتأثر بالقيم المتطرفة." },
+  { type: "mcq", question: "7. The median is the value that divides the data into:", options: ["Two equal halves", "Three parts", "Four parts", "None"], answer: 0, explanation: "الوسيط يقسم البيانات إلى نصفين متساويين." },
+  { type: "mcq", question: "8. Which measure is best for skewed data?", options: ["Mean", "Median", "Mode", "Range"], answer: 1, explanation: "الوسيط الأفضل مع البيانات المنحرفة لأنه لا يتأثر بالقيم القصوى." },
+  { type: "mcq", question: "9. The mode is useful for:", options: ["Numerical data only", "Categorical data", "Continuous data", "All types"], answer: 1, explanation: "الوضع مفيد للبيانات الفئوية لتحديد الفئة الأكثر شيوعًا." },
+  { type: "mcq", question: "10. Find the mean of 4, 6, 8, 10, 12.", options: ["7", "8", "9", "10"], answer: 1, explanation: "المتوسط = (4+6+8+10+12)/5 = 8." },
+  { type: "mcq", question: "11. What is the mode of 1, 2, 2, 3, 4, 4, 4?", options: ["2", "3", "4", "No mode"], answer: 2, explanation: "القيمة الأكثر تكرارًا هي 4." },
+  { type: "mcq", question: "12. The median of 3, 5, 7, 9 is:", options: ["5", "6", "7", "6.5"], answer: 3, explanation: "الوسيط = (5 + 7) / 2 = 6.5." },
+  { type: "mcq", question: "13. Mean is also known as:", options: ["Middle value", "Most frequent value", "Average", "Range"], answer: 2, explanation: "المتوسط يُعرف باسم المتوسط الحسابي (Average)." },
+  { type: "mcq", question: "14. Which measure uses all data values?", options: ["Mean", "Median", "Mode", "Range"], answer: 0, explanation: "المتوسط يعتمد على كل القيم في الحساب." },
+  { type: "mcq", question: "15. The sum of deviations from mean is always:", options: ["0", "1", "Negative", "Positive"], answer: 0, explanation: "مجموع الانحرافات عن المتوسط يساوي صفر دائمًا." },
+  { type: "mcq", question: "16. The median is unaffected by:", options: ["Extreme values", "Middle values", "All values", "Large dataset"], answer: 0, explanation: "الوسيط لا يتأثر بالقيم المتطرفة." },
+  { type: "mcq", question: "17. Mode can have:", options: ["Only one value", "Two values", "More than one value", "None of the above"], answer: 2, explanation: "قد يكون للوضع أكثر من قيمة واحدة (multi-modal)." },
+  { type: "mcq", question: "18. In a normal distribution:", options: ["Mean < Median < Mode", "Mean = Median = Mode", "Mean > Median > Mode", "No relation"], answer: 1, explanation: "في التوزيع الطبيعي كل المقاييس الثلاثة متساوية." },
+  { type: "mcq", question: "19. Which of these is most affected by outliers?", options: ["Mean", "Median", "Mode", "None"], answer: 0, explanation: "المتوسط هو الأكثر تأثرًا بالقيم المتطرفة." },
+  { type: "mcq", question: "20. The median of 1, 2, 3, 4, 5, 6, 7, 8 is:", options: ["3", "4", "4.5", "5"], answer: 2, explanation: "الوسيط = (4+5)/2 = 4.5." },
+  { type: "mcq", question: "21. What is the mean of 7, 7, 7, 7?", options: ["0", "7", "14", "28"], answer: 1, explanation: "كل القيم متساوية، فالمتوسط = 7." },
+  { type: "mcq", question: "22. The most frequent observation is called:", options: ["Median", "Mean", "Mode", "Range"], answer: 2, explanation: "الوضع هو القيمة الأكثر تكرارًا." },
+  { type: "mcq", question: "23. The mean of 10, 20, 30, 40, 50 is:", options: ["25", "30", "35", "40"], answer: 1, explanation: "المتوسط = (10+20+30+40+50)/5 = 30." },
+  { type: "mcq", question: "24. Which measure divides data into equal halves?", options: ["Mean", "Median", "Mode", "Range"], answer: 1, explanation: "الوسيط يقسم البيانات إلى نصفين متساويين." },
+  { type: "mcq", question: "25. Mean is calculated by:", options: ["(Sum of values)/(Total values)", "Middle value", "Most repeated value", "Highest - lowest"], answer: 0, explanation: "المتوسط = مجموع القيم ÷ عددها." },
+  { type: "mcq", question: "26. Mode is best suited for:", options: ["Nominal data", "Interval data", "Ratio data", "All"], answer: 0, explanation: "الوضع يناسب البيانات الاسمية (Nominal)." },
+  { type: "mcq", question: "27. Which measure is easiest to compute?", options: ["Mean", "Median", "Mode", "Range"], answer: 3, explanation: "المدى هو الأسهل حسابًا لأنه يعتمد على أكبر وأصغر قيمة." },
+  { type: "mcq", question: "28. If mean > median > mode, the distribution is:", options: ["Symmetrical", "Positively skewed", "Negatively skewed", "Normal"], answer: 1, explanation: "عندما المتوسط أكبر → البيانات منحرفة إيجابيًا." },
+  { type: "mcq", question: "29. If mean < median < mode, the distribution is:", options: ["Symmetrical", "Positively skewed", "Negatively skewed", "Normal"], answer: 2, explanation: "عندما المتوسط أصغر → البيانات منحرفة سلبيًا." },
+  { type: "mcq", question: "30. Mode can be found by:", options: ["Observation", "Calculation", "Both", "None"], answer: 0, explanation: "الوضع يُعرف بالملاحظة المباشرة للقيمة الأكثر تكرارًا." },
+
+  // ---------- Essay Questions (3) ----------
+  { type: "essay", question: "31. Define 'Mean' in your own words.", answer: "The average of all data values.", explanation: "المتوسط هو مجموع القيم مقسوم على عددها." },
+  { type: "essay", question: "32. Calculate the mean of 5, 10, 15, 20, 25.", answer: "15", explanation: "المتوسط = (5+10+15+20+25)/5 = 15." },
+  { type: "essay", question: "33. Find the median of 12, 14, 18, 20, 24, 30.", answer: "19", explanation: "الوسيط = (18+20)/2 = 19." }
+];
+const mediumQuestions = [
+  // ---------- Multiple Choice Questions (30) ----------
+  { type: "mcq", question: "1. The mean of 6, 8, 10, 12, 14 is:", options: ["8", "9", "10", "12"], answer: 2, explanation: "المتوسط = (6+8+10+12+14)/5 = 10." },
+  { type: "mcq", question: "2. The median of 5, 7, 9, 11, 13, 15 is:", options: ["9", "10", "11", "12"], answer: 1, explanation: "الوسيط = (9+11)/2 = 10." },
+  { type: "mcq", question: "3. The mode of 2, 3, 3, 4, 5, 5, 5 is:", options: ["2", "3", "4", "5"], answer: 3, explanation: "القيمة الأكثر تكرارًا هي 5." },
+  { type: "mcq", question: "4. In a dataset, if mean = median = mode, the data is:", options: ["Skewed", "Symmetrical", "Positively skewed", "Negatively skewed"], answer: 1, explanation: "عندما تكون القيم الثلاثة متساوية → توزيع متماثل." },
+  { type: "mcq", question: "5. If mean > median, the data is:", options: ["Positively skewed", "Negatively skewed", "Symmetrical", "Flat"], answer: 0, explanation: "عندما المتوسط أكبر من الوسيط → انحراف إيجابي." },
+  { type: "mcq", question: "6. If mean < median, the data is:", options: ["Positively skewed", "Negatively skewed", "Symmetrical", "Normal"], answer: 1, explanation: "عندما المتوسط أقل → انحراف سلبي." },
+  { type: "mcq", question: "7. Which measure is most affected by outliers?", options: ["Mean", "Median", "Mode", "All equally"], answer: 0, explanation: "المتوسط أكثر المقاييس تأثرًا بالقيم المتطرفة." },
+  { type: "mcq", question: "8. Median is better than mean when:", options: ["Data is normal", "Data is skewed", "No outliers", "Small dataset"], answer: 1, explanation: "الوسيط أفضل عند وجود انحراف أو قيم متطرفة." },
+  { type: "mcq", question: "9. The mean of first 5 even numbers is:", options: ["4", "5", "6", "7"], answer: 2, explanation: "الأعداد: 2,4,6,8,10 → المتوسط = 6." },
+  { type: "mcq", question: "10. The mode of 2, 2, 3, 4, 4, 5 is:", options: ["2", "3", "4", "No mode"], answer: 3, explanation: "فيه قيمتين مكررتين بنفس التكرار → لا يوجد وضع وحيد." },
+  { type: "mcq", question: "11. When all values are equal, the variance is:", options: ["0", "1", "Equal to mean", "Negative"], answer: 0, explanation: "عندما تكون القيم متساوية → التباين صفر." },
+  { type: "mcq", question: "12. Which of the following is true for median?", options: ["Uses all data values", "Affected by extremes", "Not affected by extremes", "Always equals mean"], answer: 2, explanation: "الوسيط لا يتأثر بالقيم المتطرفة." },
+  { type: "mcq", question: "13. Find mean of 4, 9, 14, 19, 24.", options: ["14", "15", "16", "17"], answer: 1, explanation: "المتوسط = (4+9+14+19+24)/5 = 14." },
+  { type: "mcq", question: "14. Mode is:", options: ["Most frequent value", "Middle value", "Average value", "Sum of values"], answer: 0, explanation: "الوضع = القيمة الأكثر تكرارًا." },
+  { type: "mcq", question: "15. For data: 2, 4, 6, 8, 10, 100, which measure is best?", options: ["Mean", "Median", "Mode", "All equal"], answer: 1, explanation: "الوسيط أفضل لأنه لا يتأثر بالقيمة المتطرفة 100." },
+  { type: "mcq", question: "16. The arithmetic mean is also called:", options: ["Mode", "Median", "Average", "Range"], answer: 2, explanation: "المتوسط الحسابي هو الـ Average." },
+  { type: "mcq", question: "17. The mean of 12, 15, 20, 23, 25 is:", options: ["17", "19", "20", "21"], answer: 2, explanation: "المتوسط = (12+15+20+23+25)/5 = 19." },
+  { type: "mcq", question: "18. In a dataset, mode = 8, median = 9, mean = 10. This is:", options: ["Positively skewed", "Negatively skewed", "Symmetrical", "Bimodal"], answer: 0, explanation: "عندما mean أكبر → انحراف إيجابي." },
+  { type: "mcq", question: "19. For negatively skewed data, mean is:", options: ["Less than median", "Equal to median", "Greater than median", "None"], answer: 0, explanation: "في الانحراف السلبي: المتوسط < الوسيط." },
+  { type: "mcq", question: "20. If data has two modes, it is called:", options: ["Unimodal", "Bimodal", "Trimodal", "Multimodal"], answer: 1, explanation: "بيمودال = له وضعان مختلفان." },
+  { type: "mcq", question: "21. The mean is calculated by dividing:", options: ["Total frequency by total values", "Sum of values by number of values", "Highest by lowest", "Median by mode"], answer: 1, explanation: "المتوسط = مجموع القيم ÷ عددها." },
+  { type: "mcq", question: "22. The median of 1, 2, 3, 4, 5, 6, 7 is:", options: ["3", "4", "5", "6"], answer: 1, explanation: "الوسيط = القيمة الرابعة = 4." },
+  { type: "mcq", question: "23. Which measure is easiest to find from a histogram?", options: ["Mean", "Median", "Mode", "Range"], answer: 2, explanation: "الوضع يمكن ملاحظته بسهولة من قمة العمود." },
+  { type: "mcq", question: "24. If mean = 50 and total of 10 numbers is 500, what is missing?", options: ["Nothing", "Number of items", "Sum of values", "Data values"], answer: 0, explanation: "المتوسط = المجموع ÷ العدد → 500 ÷ 10 = 50 ✅" },
+  { type: "mcq", question: "25. The mean is a measure of:", options: ["Dispersion", "Central tendency", "Skewness", "Kurtosis"], answer: 1, explanation: "المتوسط هو أحد مقاييس النزعة المركزية." },
+  { type: "mcq", question: "26. The sum of deviations from the mean is:", options: ["Zero", "Positive", "Negative", "Equal to variance"], answer: 0, explanation: "مجموع الانحرافات دائمًا = صفر." },
+  { type: "mcq", question: "27. If mode = 20, median = 25, what is mean (empirical relation)?", options: ["Mean = 27", "Mean = 30", "Mean = 35", "Mean = 40"], answer: 0, explanation: "علاقة تقريبية: Mean = (Mode + 2×Median)/3 = (20 + 50)/3 ≈ 23.3 ≈ 27." },
+  { type: "mcq", question: "28. The median divides the frequency distribution into:", options: ["2 equal parts", "3 equal parts", "4 equal parts", "5 equal parts"], answer: 0, explanation: "الوسيط يقسم التوزيع إلى نصفين متساويين." },
+  { type: "mcq", question: "29. Which of the following is not true about mean?", options: ["It uses all data values", "It is affected by outliers", "It divides data equally", "It is easy to compute"], answer: 2, explanation: "المتوسط لا يقسم البيانات إلى نصفين، ده دور الوسيط." },
+  { type: "mcq", question: "30. The mean of 10, 20, 30, 40, 50 is:", options: ["20", "25", "30", "35"], answer: 2, explanation: "المتوسط = (10+20+30+40+50)/5 = 30." },
+
+  // ---------- Essay Questions (3) ----------
+  { type: "essay", question: "31. Explain when median is preferred over mean.", answer: "When data has extreme values or is skewed.", explanation: "نستخدم الوسيط عندما تكون البيانات منحرفة أو تحتوي قيمًا متطرفة." },
+  { type: "essay", question: "32. Calculate the mean of 5, 10, 15, 20, 25, 30.", answer: "17.5", explanation: "المتوسط = (5+10+15+20+25+30)/6 = 17.5." },
+  { type: "essay", question: "33. Find the mode of the dataset: 3, 5, 5, 7, 7, 7, 9.", answer: "7", explanation: "الوضع هو القيمة الأكثر تكرارًا = 7." }
+];
+const hardQuestions = [
+  // ---------- Multiple Choice Questions (30) ----------
+  { type: "mcq", question: "1. The mean of 12, 15, 22, 25, 50 is:", options: ["20", "23", "24.8", "25"], answer: 2, explanation: "المتوسط = (12+15+22+25+50)/5 = 124/5 = 24.8." },
+  { type: "mcq", question: "2. The median of 4, 7, 9, 12, 20, 25, 30 is:", options: ["9", "12", "13", "15"], answer: 1, explanation: "الوسيط = القيمة الرابعة = 12." },
+  { type: "mcq", question: "3. The mode of 5, 5, 6, 7, 8, 9, 10, 10, 10 is:", options: ["5", "7", "9", "10"], answer: 3, explanation: "الوضع = القيمة الأكثر تكرارًا = 10." },
+  { type: "mcq", question: "4. In a dataset 5, 10, 15, 20, 100, which measure best represents the data?", options: ["Mean", "Median", "Mode", "Range"], answer: 1, explanation: "الوسيط هو الأنسب لأنه لا يتأثر بالقيمة المتطرفة 100." },
+  { type: "mcq", question: "5. If mean = 40, median = 35, mode = 30, the distribution is:", options: ["Positively skewed", "Negatively skewed", "Symmetrical", "Uniform"], answer: 0, explanation: "Mean > Median > Mode → انحراف إيجابي." },
+  { type: "mcq", question: "6. Find the mean of 2, 3, 5, 9, 11, 12, 13, 14, 20.", options: ["8", "9.88", "10", "11"], answer: 1, explanation: "المتوسط = 89 / 9 ≈ 9.88." },
+  { type: "mcq", question: "7. Which measure can be found graphically using a cumulative frequency curve?", options: ["Mean", "Median", "Mode", "Range"], answer: 1, explanation: "الوسيط يمكن إيجاده من المنحنى التراكمي (Ogive)." },
+  { type: "mcq", question: "8. The mode can be found from:", options: ["Histogram", "Ogive", "Pie chart", "Line graph"], answer: 0, explanation: "الوضع يمكن تحديده من قمة العمود في المدرج التكراري." },
+  { type: "mcq", question: "9. The mean is calculated using:", options: ["Only middle values", "All data values", "Extreme values only", "None"], answer: 1, explanation: "المتوسط يعتمد على جميع القيم." },
+  { type: "mcq", question: "10. When a constant value is added to each observation, the mean:", options: ["Remains same", "Increases by constant", "Decreases", "Doubles"], answer: 1, explanation: "إضافة قيمة ثابتة لكل عنصر ترفع المتوسط بنفس المقدار." },
+  { type: "mcq", question: "11. When each observation is multiplied by a constant, the mean:", options: ["Remains same", "Multiplies by that constant", "Divides by constant", "None"], answer: 1, explanation: "الضرب في ثابت يجعل المتوسط يتضاعف بنفس الثابت." },
+  { type: "mcq", question: "12. If mean = 25 and each value increases by 5, new mean is:", options: ["25", "30", "35", "20"], answer: 1, explanation: "المتوسط الجديد = 25 + 5 = 30." },
+  { type: "mcq", question: "13. The median of grouped data is found using:", options: ["Class boundaries", "Frequencies", "Cumulative frequencies", "All of these"], answer: 3, explanation: "نحتاج الحدود والفئة التراكمية لحساب الوسيط المجمع." },
+  { type: "mcq", question: "14. The mode of grouped data is found using:", options: ["Mode formula", "Mean formula", "Median formula", "Graph only"], answer: 0, explanation: "يُستخدم قانون الوضع للفئات لتقدير الوضع التجميعي." },
+  { type: "mcq", question: "15. Empirical relation between mean, median, and mode is:", options: ["Mean = (Mode + 2Median)/3", "Mode = 3Median - 2Mean", "Median = (Mean + Mode)/2", "All are correct"], answer: 3, explanation: "العلاقات الثلاث صحيحة وتصف العلاقة التقريبية بين المقاييس." },
+  { type: "mcq", question: "16. For a perfectly symmetrical distribution:", options: ["Mean = Median = Mode", "Mean > Median", "Mode > Median", "Mean < Mode"], answer: 0, explanation: "في التوزيع المتماثل تكون القيم الثلاث متساوية." },
+  { type: "mcq", question: "17. The mean of 10 numbers is 20. If one number 30 is added, new mean is:", options: ["20", "21", "22", "23"], answer: 1, explanation: "مجموع القيم = 200 + 30 = 230 → المتوسط = 230/11 ≈ 21." },
+  { type: "mcq", question: "18. Median of 2, 4, 6, 8, 10, 12, 14, 16 is:", options: ["7", "8", "9", "9.5"], answer: 3, explanation: "الوسيط = (8+10)/2 = 9." },
+  { type: "mcq", question: "19. Mean is considered the best measure because:", options: ["Easy to compute", "Uses all values", "Affected by extremes", "Based on middle value"], answer: 1, explanation: "لأنه يعتمد على جميع القيم ويشملها في الحساب." },
+  { type: "mcq", question: "20. Which measure divides the area under a curve into two equal parts?", options: ["Mean", "Median", "Mode", "Variance"], answer: 1, explanation: "الوسيط يقسم التوزيع إلى نصفين متساويين من حيث المساحة." },
+  { type: "mcq", question: "21. The median of first 9 natural numbers is:", options: ["4", "4.5", "5", "5.5"], answer: 2, explanation: "الأعداد: 1–9 → الوسيط = الخامس = 5." },
+  { type: "mcq", question: "22. Which measure may not exist for some data?", options: ["Mean", "Median", "Mode", "All"], answer: 2, explanation: "الوضع قد لا يوجد إذا لم تتكرر أي قيمة." },
+  { type: "mcq", question: "23. If all values are doubled, the median becomes:", options: ["Same", "Doubled", "Halved", "Unknown"], answer: 1, explanation: "الوسيط يتضاعف بنفس النسبة عند مضاعفة القيم." },
+  { type: "mcq", question: "24. If mean = 40 and mode = 20, what is median?", options: ["25", "30", "35", "40"], answer: 2, explanation: "من العلاقة التقريبية: Mode = 3Median - 2Mean → 20 = 3M - 80 → M = 35." },
+  { type: "mcq", question: "25. Which measure is least affected by sampling fluctuations?", options: ["Mean", "Median", "Mode", "Range"], answer: 1, explanation: "الوسيط أقل المقاييس تأثرًا بتغير العينة." },
+  { type: "mcq", question: "26. For grouped data, the mode class is the class with:", options: ["Highest frequency", "Lowest frequency", "Median value", "None"], answer: 0, explanation: "فئة الوضع هي الفئة ذات التكرار الأكبر." },
+  { type: "mcq", question: "27. The mean of first n natural numbers is:", options: ["n/2", "(n+1)/2", "n+1", "n-1"], answer: 1, explanation: "المتوسط = (n+1)/2." },
+  { type: "mcq", question: "28. The mode of 2, 2, 3, 4, 5, 6, 7 is:", options: ["2", "3", "4", "No mode"], answer: 0, explanation: "القيمة الأكثر تكرارًا = 2." },
+  { type: "mcq", question: "29. The mean of 50 observations was 80. One value 100 was recorded instead of 50. Correct mean is:", options: ["79", "79.5", "80.5", "81"], answer: 0, explanation: "الخطأ = +50 → التصحيح يقلل المجموع 50 → المتوسط الجديد ≈ 79." },
+  { type: "mcq", question: "30. The mean of 8, 10, 12, 14, 16 is:", options: ["10", "11", "12", "13"], answer: 2, explanation: "المتوسط = (8+10+12+14+16)/5 = 12." },
+
+  // ---------- Essay Questions (3) ----------
+  { type: "essay", question: "31. Explain the difference between mean, median, and mode.", answer: "Mean is the average, median is the middle value, and mode is the most frequent value.", explanation: "المتوسط = المتوسط الحسابي، الوسيط = القيمة الوسطى، الوضع = الأكثر تكرارًا." },
+  { type: "essay", question: "32. Calculate the mean for 8, 12, 15, 20, 25, 30.", answer: "18.33", explanation: "المتوسط = (8+12+15+20+25+30)/6 = 110/6 ≈ 18.33." },
+  { type: "essay", question: "33. Find the median of 3, 7, 9, 11, 15, 18, 21, 24.", answer: "13", explanation: "الوسيط = (11+15)/2 = 13." }
+];
+
+
+/* =============================
+   2️⃣ منطق الكويز العام
+   ============================= */
+
+const levels = {
+  easy: easyQuestions,
+  medium: mediumQuestions,
+  hard: hardQuestions
+};
+
+let totalScore = 0;
+
+function loadQuestions(level) {
+  const container = document.getElementById(level);
+  container.innerHTML = "";
+  levels[level].forEach((q, i) => {
+    const div = document.createElement("div");
+    div.className = "question";
+
+    // لو السؤال اختياري (MCQ)
+    if (q.type === "mcq") {
+      let optionsHTML = "";
+      q.options.forEach((opt, j) => {
+        optionsHTML += `<label><input type='radio' name='${level}-${i}' value='${j}'> ${opt}</label><br>`;
+      });
+      div.innerHTML = `
+        <p>${q.question}</p>
+        ${optionsHTML}
+        <button onclick="showAnswer('${level}', ${i})">Show Answer</button>
+        <div class='answers' id='ans-${level}-${i}'></div>
+      `;
+    }
+
+    // لو السؤال مقالي (Essay)
+    else if (q.type === "essay") {
+      div.innerHTML = `
+        <p>${q.question}</p>
+        <textarea id="essay-${level}-${i}" placeholder="Write your answer here..."></textarea><br>
+        <button onclick="checkEssay('${level}', ${i})">Check Answer</button>
+        <div class='answers' id='ans-${level}-${i}'></div>
+      `;
+    }
+
+    container.appendChild(div);
+  });
+}
+function checkEssay(level, index) {
+  const q = levels[level][index];
+  const userAnswer = document.getElementById(`essay-${level}-${index}`).value.trim().toLowerCase();
+  const correctAnswer = q.answer.trim().toLowerCase();
+  const ansDiv = document.getElementById(`ans-${level}-${index}`);
+
+  if (!userAnswer) {
+    ansDiv.innerHTML = "<span style='color:red'>Please write your answer first!</span>";
+    return;
+  }
+
+  if (userAnswer === correctAnswer) {
+    totalScore++;
+    ansDiv.innerHTML = `<span style='color:green'>Correct ✅<br>${q.explanation}</span>`;
+  } else {
+    ansDiv.innerHTML = `<span style='color:red'>Wrong ❌<br>Correct answer: <b>${q.answer}</b><br>${q.explanation}</span>`;
+  }
+
+  document.getElementById("score").innerHTML = `Your current score: ${totalScore}`;
+}
+
+
+function showAnswer(level, index) {
+  const q = levels[level][index];
+  const selected = [...document.getElementsByName(`${level}-${index}`)]
+    .find(r => r.checked);
+  const ansDiv = document.getElementById(`ans-${level}-${index}`);
+  if (!selected) {
+    ansDiv.innerHTML = "<span style='color:red'>Choose an answer first!</span>";
+    return;
+  }
+  if (parseInt(selected.value) === q.answer) {
+    totalScore++;
+    ansDiv.innerHTML = `<span style='color:green'>Correct ✅<br>${q.explanation}</span>`;
+  } else {
+    ansDiv.innerHTML = `<span style='color:red'>Wrong ❌<br>${q.explanation}</span>`;
+  }
+  document.getElementById("score").innerHTML =
+    `Your current score: ${totalScore}`;
+}
+
+/* =============================
+   3️⃣ التبديل بين التبويبات
+   ============================= */
+
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", e => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    e.target.classList.add("active");
+
+    const tab = e.target.dataset.tab;
+    document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+    document.getElementById(tab).classList.add("active");
+
+    loadQuestions(tab);
+  });
+});
+
+// تحميل المستوى الأول افتراضيًا
+loadQuestions("easy");
+</script>
+
+</body>
+</html>

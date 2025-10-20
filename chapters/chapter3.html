@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الفصل الثالث: مقاييس النزعة المركزية</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+            direction: rtl;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .example {
+            background-color: #ecf0f1;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #3498db;
+        }
+        .exercise {
+            background-color: #fce4ec;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #e91e63;
+        }
+        ul {
+            margin: 10px 0 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>الفصل الثالث: مقاييس النزعة المركزية</h1>
+        <p>الفصل ده بيتكلم عن إزاي نعرف "وسط البيانات" أو المركز اللي البيانات حواليه، فيه 3 مقاييس رئيسية:</p>
+
+        <h2>1. المتوسط (Mean)</h2>
+        <p>المتوسط هو مجموع كل القيم مقسوم على عدد القيم.</p>
+        <div class="example">
+            <strong>مثال:</strong> لو عندنا أعمار: 21, 24, 23, 25, 26 → المتوسط = (21+24+23+25+26)/5 = 23.8
+        </div>
+
+        <h2>2. الوسيط (Median)</h2>
+        <p>القيمة اللي بتقسم البيانات لنصين: 50% أقل منها و50% أكبر منها.</p>
+        <div class="example">
+            <strong>مثال فردي:</strong> 1,2,3,3,4 → الوسيط = 3<br>
+            <strong>مثال زوجي:</strong> 1,2,2,3,3,4 → الوسيط = (2+3)/2 = 2.5
+        </div>
+
+        <h2>3. المنوال (Mode)</h2>
+        <p>القيمة اللي متكررة أكتر من غيرها. ممكن يكون فيه أكتر من منوال أو ميبقاش موجود.</p>
+        <div class="example">
+            <strong>مثال:</strong> 1,1,2,1,3 → المنوال = 1
+        </div>
+
+        <h2>نصايح عامة</h2>
+        <ul>
+            <li>المتوسط غالبًا هو الأفضل إلا لو البيانات منحرفة جدًا → استخدم الوسيط.</li>
+            <li>المنوال مهم لو عايزين نعرف أكتر قيمة ظهرت.</li>
+        </ul>
+
+        <h2>تمارين تطبيقية</h2>
+        <div class="exercise">
+            1. أيهم من المقاييس دي يعتبر مقياس نزعة مركزية؟ <br>
+            Range, Interquartile range, Standard deviation, <strong>Median</strong>
+        </div>
+        <div class="exercise">
+            2. حساب المتوسط لمجموعة بيانات: 25,18,5,12,24,16 → المتوسط = (25+18+5+12+24+16)/6 = 16.7
+        </div>
+        <div class="exercise">
+            3. حساب الوسيط لنفس البيانات → ترتيب: 5,12,16,18,24,25 → الوسط = (16+18)/2 = 17
+        </div>
+        <div class="exercise">
+            4. لو البيانات منحرفة → أي مقياس أفضل؟ <br>
+            الإجابة: الوسيط
+        </div>
+    </div>
+</body>
+</html>

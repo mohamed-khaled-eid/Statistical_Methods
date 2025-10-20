@@ -1,0 +1,140 @@
+/* إعدادات عامة */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    direction: rtl;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #e0f7fa, #ffffff);
+    color: #2c3e50;
+}
+
+/* الترويسة */
+header {
+    background-color: #34495e;
+    color: #ecf0f1;
+    text-align: center;
+    padding: 2rem 1rem;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+}
+
+/* المحتوى الرئيسي */
+main {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+/* العناوين */
+main h2 {
+    color: #1abc9c;
+    font-size: 1.8rem;
+    border-bottom: 3px solid #1abc9c;
+    padding-bottom: 0.3rem;
+    margin-top: 2rem;
+}
+
+/* شبكة الفصول */
+.chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+/* بطاقة الفصل */
+.chapter-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.chapter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* عنوان البطاقة */
+.chapter-card h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #34495e;
+    font-size: 1.3rem;
+}
+
+/* روابط الشرح والكويز */
+.chapter-card a {
+    display: inline-block;
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.chapter-card a:first-child {
+    background-color: #f39c12;
+    color: #fff;
+}
+
+.chapter-card a:first-child:hover {
+    background-color: #e67e22;
+}
+
+.chapter-card a:last-child {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.chapter-card a:last-child:hover {
+    background-color: #2980b9;
+}
+
+/* قسم الامتحان والكتاب */
+.special-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.special-links a {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.special-links a.exam {
+    background-color: #9b59b6;
+}
+
+.special-links a.exam:hover {
+    background-color: #8e44ad;
+}
+
+.special-links a.book {
+    background-color: #16a085;
+}
+
+.special-links a.book:hover {
+    background-color: #138d75;
+}
+
+/* متجاوب */
+@media (max-width: 600px) {
+    header h1 { font-size: 2rem; }
+    .chapter-card h3 { font-size: 1.1rem; }
+}
